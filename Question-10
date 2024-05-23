@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <limits.h>
+
+
+void findSecondSmallestAndLargest(int arr[], int size, int *secondSmallest, int *secondLargest) {
+    int firstMin = INT_MAX, secondMin = INT_MAX;
+    int firstMax = INT_MIN, secondMax = INT_MIN;
+
+    
+    for (int i = 0; i < size; i++) {
+        if (arr[i] < firstMin) {
+            secondMin = firstMin;
+            firstMin = arr[i];
+        } else if (arr[i] < secondMin && arr[i] != firstMin) {
+            secondMin = arr[i];
+        }
+    }
+
+    
+    for (int i = 0; i < size; i++) {
+        if (arr[i] > firstMax) {
+            secondMax = firstMax;
+            firstMax = arr[i];
+        } else if (arr[i] > secondMax && arr[i] != firstMax) {
+            secondMax = arr[i];
+        }
+    }
+
+    *secondSmallest = secondMin;
+    *secondLargest = secondMax;
+}
+
+int main() {
+    int arr[] = {12, 34, 56, 1, 9, 65, 45, 23};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    int secondSmallest, secondLargest;
+    findSecondSmallestAndLargest(arr, size, &secondSmallest, &secondLargest);
+
+    
+    if (secondSmallest % 2 == 0) {
+        secondSmallest += 2;
+    } else {
+        secondSmallest -= 2;
+    }
+
+    
+    if (secondLargest % 2 == 0) {
+        secondLargest *= 2;
+    } else {
+        secondLargest /= 2;
+    }
+
+    
+    printf("Modified array: ");
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == secondSmallest - 2) {
+            printf("%d ", secondSmallest);
+        } else if (arr[i] == secondLargest / 2) {
+            printf("%d ", secondLargest);
+        } else {
+            printf("%d ", arr[i]);
+        }
+    }
+    printf("\n");
+
+    return 0;
+}
